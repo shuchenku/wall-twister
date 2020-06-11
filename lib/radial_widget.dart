@@ -21,10 +21,10 @@ class _RadialWidget extends State<RadialWidget> {
   List<Widget> getCircles() {
     double radian = pi / 2 / widget.colorList.length;
     var circles = new List<Widget>();
-    double sradius = pi*60/widget.colorList.length;
+    double sradius = pi*70/widget.colorList.length;
     double bradius = radius/2 - sradius;
 
-    Widget bigCircle = new Container(
+    Widget bigCircle = Container(
       width: radius + 10,
       height: radius + 10,
       decoration: new BoxDecoration(
@@ -38,7 +38,7 @@ class _RadialWidget extends State<RadialWidget> {
     for (var i = 0; i < widget.colorList.length; i++) {
       circles.add(
         Positioned(
-          child: new CircleButton(widget.colorList[i], sradius),
+          child: CircleButton(widget.colorList[i], sradius),
           bottom: radius/2 + sin(radian * (0.5 + i)) * bradius,
           right: radius/2 + cos(radian * (0.5 + i)) * bradius,
         ),
@@ -48,7 +48,7 @@ class _RadialWidget extends State<RadialWidget> {
     for (var i = widget.colorList.length; i > 0; i--) {
       circles.add(
         Positioned(
-          child: new CircleButton(widget.colorList[widget.colorList.length - i], sradius),
+          child: CircleButton(widget.colorList[widget.colorList.length - i], sradius),
           bottom: radius/2 + sin(radian * (i - 0.5)) * bradius,
           left: radius/2 + cos(radian * (i - 0.5)) * bradius,
         ),
@@ -58,7 +58,7 @@ class _RadialWidget extends State<RadialWidget> {
     for (var i = 0; i < widget.colorList.length; i++) {
       circles.add(
         Positioned(
-          child: new CircleButton(widget.colorList[i], sradius),
+          child: CircleButton(widget.colorList[i], sradius),
           top: radius/2 + sin(radian * (0.5 + i)) * bradius,
           left: radius/2 + cos(radian * (0.5 + i)) * bradius,
         ),
@@ -68,7 +68,7 @@ class _RadialWidget extends State<RadialWidget> {
     for (var i = widget.colorList.length; i >0; i--) {
       circles.add(
         Positioned(
-          child: new CircleButton(widget.colorList[widget.colorList.length - i], sradius),
+          child: CircleButton(widget.colorList[widget.colorList.length - i], sradius),
           top: radius/2  + sin(radian * (i - 0.5)) * bradius,
           right: radius/2  + cos(radian * (i - 0.5)) * bradius,
         ),
@@ -82,19 +82,16 @@ class _RadialWidget extends State<RadialWidget> {
           left: 8,
         )
     );
-
     return circles;
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return new Material(
+    return Material(
       color: Colors.amber[100],
-      child: new Center(
-        child: new Stack(
-          children: getCircles()
-        ),
+      child: Center(
+        child: Stack(children: getCircles()),
       ),
     );
   }
@@ -108,8 +105,8 @@ class CircleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new InkResponse(
-      child: new Container(
+    return InkResponse(
+      child: Container(
         width: size,
         height: size,
         decoration: new BoxDecoration(

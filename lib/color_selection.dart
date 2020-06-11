@@ -5,7 +5,7 @@ import 'package:walltwister/main.dart';
 
 class ColorSelection extends StatefulWidget {
 
-  final String title = 'Select Hold Colors';
+  final String title = 'Change Hold Colors';
   @override
   _ColorSelectionState createState() => _ColorSelectionState();
 }
@@ -44,12 +44,12 @@ class _ColorSelectionState extends State<ColorSelection> {
                   Container(
                     padding: EdgeInsets.all(24.0),
                       child: totalCount == 0 ? Text(
-                        "Please add hold colors from below and adjust distribution.",
+                        "Please add hold colors and adjust distribution.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.redAccent,
+                          color: Colors.black38,
                           fontSize: 20,
-                          fontWeight: FontWeight.bold,
+//                          fontWeight: FontWeight.bold,
                         ),
                       ) : PieChart(
                         dataMap: dataMap,
@@ -86,7 +86,7 @@ class _ColorSelectionState extends State<ColorSelection> {
         onPressed: () {
           Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => MyHomePage(colorMap: _getColorMap())));
+              MaterialPageRoute(builder: (context) => MyHomePage(colorMap: _getColorMap(), total: totalCount,)));
         },
         child: Icon(Icons.check),
         backgroundColor: Colors.green,
@@ -133,10 +133,7 @@ class _ColorSelectionState extends State<ColorSelection> {
   _handleColorRemove(int index) {
     if (dataMap.containsKey(allColors[index].toString())) {
       dataMap.update(allColors[index].toString(), (value) => _handleCountOnRemove(value));
-    } else {
-      dataMap.putIfAbsent(allColors[index].toString(), () => 1);
     }
-    totalCount--;
     setState(() {
 
     });
@@ -144,6 +141,7 @@ class _ColorSelectionState extends State<ColorSelection> {
 
   double _handleCountOnRemove(double count) {
     if (count > 0) {
+      totalCount--;
       return count - 1;
     } else {
       return 0;

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:walltwister/radial_widget.dart';
 
@@ -34,8 +35,9 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final Map<Color, double> colorMap;
   final String title = "Wall Twister";
+  final total;
 
-  MyHomePage({Key key, this.colorMap}) : super(key: key);
+  MyHomePage({Key key, this.colorMap, this.total}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -62,7 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       colors = new List();
       widget.colorMap.forEach((key, value) {
-        for (var i = 0; i < value; i++) {
+        int count = value.floor();
+        if (widget.total != 0) {
+          count = (value/widget.total*10).round();
+        }
+        for (var i = 0; i < count; i++) {
           colors.add(key);
         }
       });
@@ -87,9 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         color: Colors.amber[100],
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -99,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       Image.asset(
                         'assets/images/lh.png',
-                        width: 80,
+                        height: MediaQuery.of(context).size.height * 0.1,
                       ),
                       Text("Left Hand"),
                     ]
@@ -108,8 +113,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Image.asset('assets/images/rh.png',
-                      width: 80,),
+                    Image.asset(
+                      'assets/images/rh.png',
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
                     Text("Right Hand"),
                   ],
                 ),
@@ -117,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             Center(
-                child: RadialWidget(colors ?? _getDefaultColors())
+                child: RadialWidget((colors == null || colors.isEmpty) ? _getDefaultColors() : colors)
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -129,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Text('Left Foot'),
                     Image.asset(
                       'assets/images/lf.png',
-                      width: 50,
+                      height: MediaQuery.of(context).size.height * 0.1,
                     ),
                   ],
                 ),
@@ -140,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Text('Right Hand'),
                     Image.asset(
                       'assets/images/rf.png',
-                      width: 50,
+                      height: MediaQuery.of(context).size.height * 0.1,
                     ),
                   ],
                 ),
@@ -150,14 +157,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Center(
               child: Container(
-                width: 150,
-                height: 60,
-                child: new RaisedButton(
-                    child: new Text(
-                        "New Game",
-                        style: new TextStyle(fontSize: 20)
+                width: MediaQuery.of(context).size.height * 0.25,
+                height: MediaQuery.of(context).size.height * 0.05,
+                child: RaisedButton(
+                    child: AutoSizeText(
+                        "Change Hold Colors",
                     ),
-                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                     color: Colors.red,
                     textColor: Colors.amberAccent,
                     onPressed: () =>
@@ -166,7 +172,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               )
             ),
-            Spacer(),
           ],
         ),
       )
@@ -176,9 +181,15 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Color> _getDefaultColors() {
     List<Color> colors = new List<Color>();
     colors.add(Colors.green);
+    colors.add(Colors.green);
+    colors.add(Colors.red);
     colors.add(Colors.red);
     colors.add(Colors.blue);
+    colors.add(Colors.blue);
     colors.add(Colors.yellow);
+    colors.add(Colors.yellow);
+    colors.add(Colors.orange);
+    colors.add(Colors.orange);
     return colors;
   }
 }
